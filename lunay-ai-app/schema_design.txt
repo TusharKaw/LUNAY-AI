@@ -1,0 +1,13 @@
+1. MongoDB Collections:
+- users: profile info, login method
+- companions: user-generated AIs with name, appearance, personality traits
+- conversations: full message history (text, voice metadata)
+- moods: emotional states and memory per companion
+- subscriptions: billing and access tier info
+
+2. Endpoints (REST or GraphQL):
+- POST /api/companions: Create new companion
+- GET /api/chat/:companionId: Get chat history
+- POST /api/chat: Send message → receive GPT-4 reply
+- POST /api/voice: Generate companion voice
+- PUT /api/memory: Update long-term memory from interactions

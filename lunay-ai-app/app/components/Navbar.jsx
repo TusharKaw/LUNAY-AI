@@ -41,7 +41,7 @@ const Navbar = () => {
               >
                 {/* Replace with your actual logo */}
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-luna-primary to-luna-secondary flex items-center justify-center text-white font-bold text-xl">
-                  L
+                  
                 </div>
               </motion.div>
               <span className="ml-2 text-xl font-semibold bg-gradient-to-r from-luna-primary to-luna-secondary bg-clip-text text-transparent">

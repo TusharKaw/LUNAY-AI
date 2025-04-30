@@ -30,7 +30,19 @@ export async function POST(request) {
       );
     }
     
-    return NextResponse.json(data);
+    // Set token in cookie
+    const nextResponse = NextResponse.json(data);
+    nextResponse.cookies.set({
+      name: 'token',
+      value: data.token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: '/',
+    });
+    
+    return nextResponse;
   } catch (error) {
     console.error('Registration error:', error);
     return NextResponse.json(

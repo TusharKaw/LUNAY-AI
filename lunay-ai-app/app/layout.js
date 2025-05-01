@@ -1,29 +1,36 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+import AuthProvider from "../components/providers/AuthProvider";
+import TRPCProvider from "../components/providers/TRPCProvider";
+
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const robotoMono = Roboto_Mono({
+  variable: "--font-roboto-mono",
   subsets: ["latin"],
 });
 
 export const metadata = {
-  title: "Luna AI - Your Emotionally Intelligent Virtual Companion",
-  description: "Experience emotionally intelligent companionship with Luna AI. Featuring realistic chat, voice interaction, and customizable 3D avatars.",
-  keywords: ["virtual companion", "AI girlfriend", "emotional support", "virtual relationship", "AI companion"],
+  title: "Luna AI - Your AI Agent Platform",
+  description: "Create, customize, and collaborate with intelligent AI agents. Featuring natural language conversations, custom agent creation, and powerful tool integrations.",
+  keywords: ["AI agents", "conversational AI", "custom AI", "digital assistant", "AI collaboration"],
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${robotoMono.variable} antialiased`}
       >
-        {children}
+        <AuthProvider>
+          <TRPCProvider>
+            {children}
+          </TRPCProvider>
+        </AuthProvider>
       </body>
     </html>
   );

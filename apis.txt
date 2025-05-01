@@ -1,0 +1,58 @@
+Authentication API
+POST /api/auth/signup – Create a new user
+POST /api/auth/login – Authenticate user and issue token
+POST /api/auth/logout – Invalidate session/token
+GET /api/auth/me – Get current user profile
+
+
+Agent (Nomi) API
+GET /api/agents – List all agents for the user
+POST /api/agents – Create a new agent
+GET /api/agents/:id – Get agent details
+PUT /api/agents/:id – Update agent configuration
+DELETE /api/agents/:id – Delete an agent
+
+
+Conversation API
+POST /api/agents/:id/chat – Send message to agent (with context)
+GET /api/agents/:id/history – Get conversation history
+POST /api/agents/:id/history/clear – Clear agent chat history
+
+
+Memory API
+GET /api/agents/:id/memory – Fetch agent memory
+POST /api/agents/:id/memory – Add memory item
+PUT /api/agents/:id/memory/:memoryId – Edit memory item
+DELETE /api/agents/:id/memory/:memoryId – Delete memory item
+
+
+Tool/Function API
+GET /api/tools – List available tools (e.g., calculator, web search)
+POST /api/tools/execute – Execute a tool call from an agent
+POST /api/tools/register – Register a new tool/API for use by agents
+
+
+Workspace API
+GET /api/workspaces – List user’s workspaces
+POST /api/workspaces – Create a new workspace
+GET /api/workspaces/:id – Get workspace details
+PUT /api/workspaces/:id – Update workspace info
+DELETE /api/workspaces/:id – Delete workspace
+
+
+Team & Sharing API
+GET /api/teams – List teams user belongs to
+POST /api/teams – Create new team
+POST /api/teams/:teamId/invite – Invite user to team
+GET /api/teams/:teamId/agents – List shared agents in team
+
+
+Export & Share API
+GET /api/agents/:id/export – Export chat (PDF/Markdown)
+POST /api/agents/:id/share – Generate shareable link to session
+
+
+Analytics API
+GET /api/usage – User-level token usage and stats
+GET /api/agents/:id/metrics – Agent-specific usage analytics
+POST /api/feedback – Submit feedback on agent response

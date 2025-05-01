@@ -1,0 +1,40 @@
+Auth
+/login - User login
+/signup - User registration
+/logout - Logout and clear session
+/forgot-password - Reset password initiation
+/reset-password/:token - Set a new password
+
+Dashboard & Workspace
+/home (dashboard / agent overview)
+/workspaces - List of all user workspaces
+/workspaces/:id - Single workspace view
+/workspace/create - New workspace
+
+Agents (Nomis)
+/agents - List all agents
+/agents/create - Create new agent
+/agents/:id - View agent interface/chat
+/agents/:id/edit - Edit agent settings/personality
+/agents/:id/memory - Manage memory items
+/agents/:id/tools - View assigned tools/plugins
+/agents/:id/history - View full conversation history
+
+Conversations
+/conversations - Recent conversations
+/conversations/:id - View or continue a conversation
+
+Tools
+/tools - Browse user-registered tools
+/tools/register - Add new tool/API integration
+/tools/:id/edit - Edit existing tool
+
+Teams
+/teams - Team management overview
+/teams/:id - View team and members
+/teams/:id/invite - Invite new member
+
+Settings
+/settings/profile - User profile & account settings
+/settings/preferences - UI preferences (theme, lang)
+/settings/api-keys - API key management

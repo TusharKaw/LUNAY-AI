@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  avatarUrl    String?
+  createdAt    DateTime  @default(now())
+  agents       Agent[]
+  workspaces   Workspace[]
+  ownedTeams   Team[]     @relation("TeamOwner")
+  memberTeams  TeamMember[]
+  tools        Tool[]
+}
+
+model Agent {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  workspaceId String?
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+  name        String
+  persona     Json
+  config      Json
+  createdAt   DateTime  @default(now())
+  messages    Message[]
+  memories    MemoryItem[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  agentId   String
+  agent     Agent    @relation(fields: [agentId], references: [id])
+  role      String
+  content   String
+  toolCalls Json?
+  createdAt DateTime @default(now())
+}
+
+model MemoryItem {
+  id        String   @id @default(uuid())
+  agentId   String
+  agent     Agent    @relation(fields: [agentId], references: [id])
+  type      String
+  content   String
+  metadata  Json?
+  createdAt DateTime @default(now())
+}
+
+model Tool {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  schema      Json
+  handlerUrl  String
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Workspace {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  name      String
+  createdAt DateTime @default(now())
+  agents    Agent[]
+}
+
+model Team {
+  id        String      @id @default(uuid())
+  name      String
+  createdBy User        @relation("TeamOwner", fields: [ownerId], references: [id])
+  ownerId   String
+  members   TeamMember[]
+  createdAt DateTime    @default(now())
+}
+
+model TeamMember {
+  id        String   @id @default(uuid())
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  role      String
+  createdAt DateTime @default(now())
+
+  @@unique([teamId, userId])
+}

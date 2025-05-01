@@ -1,0 +1,57 @@
+User Schema
+id: UUID (PK) - User ID
+email: TEXT (UNIQUE) - User email
+password_hash: TEXT - Hashed password
+name: TEXT - Full name
+avatar_url: TEXT - Profile image
+created_at: TIMESTAMP - Registration time
+
+Agent Schema
+id: UUID (PK) - Agent ID
+user_id: UUID (FK) - Owner (references users.id)
+workspace_id: UUID (FK) - Optional workspace
+name: TEXT - Agent name
+persona: JSONB - Personality/role config
+config: JSONB - System prompt, settings, tools, etc.
+created_at: TIMESTAMP - Creation date
+
+Message Schema
+id: UUID (PK) - Message ID
+agent_id: UUID (FK) - Related agent
+role: TEXT - user, assistant, or system
+content: TEXT - Raw message content
+tool_calls: JSONB - Tool/API usage if applicable
+created_at: TIMESTAMP - Timestamp
+
+Memory_items Schema
+id: UUID (PK) - Memory ID
+agent_id: UUID (FK) - Agent associated with memory
+type: TEXT - E.g., fact, preference, note
+content: TEXT - Memory content
+metadata: JSONB - Additional info (e.g., source, tags)
+created_at: TIMESTAMP - When stored
+
+Tools Schema
+id: UUID (PK) - Tool ID
+name: TEXT - Tool name (e.g., calculator)
+description: TEXT - Tool usage description
+schema: JSONB - Tool function schema (OpenAI-style)
+handler_url: TEXT - Endpoint/function the agent can call
+created_by: UUID (FK) - User who registered the tool
+
+Workspaces Schema
+id: UUID (PK) - Workspace ID
+user_id: UUID (FK) - Owner
+name: TEXT - Workspace name
+created_at: TIMESTAMP - Date of creation
+
+Teams Schema
+id: UUID (PK) - Team ID
+name: TEXT - Team name
+created_by: UUID (FK) - Owner user
+
+Team_members Schema
+id: UUID (PK) - Team member ID
+team_id: UUID (FK) - Team
+user_id: UUID (FK) - Member user
+role: TEXT - admin, editor, viewer

@@ -15,15 +15,14 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+// Configure CORS to allow requests from frontend
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  credentials: true
+}));
 
 // Routes
 app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/companions', require('./routes/companionRoutes'));
-app.use('/api/chat', require('./routes/chatRoutes'));
-app.use('/api/voice', require('./routes/voiceRoutes'));
-app.use('/api/memory', require('./routes/memoryRoutes'));
-app.use('/api/subscriptions', require('./routes/subscriptionRoutes'));
 
 // Base route
 app.get('/', (req, res) => {
@@ -34,7 +33,8 @@ app.get('/', (req, res) => {
 app.use(errorHandler);
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+const port = process.env.PORT || 5001;
+
+app.listen(port, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`);
 });

@@ -12,8 +12,24 @@ export async function POST(request) {
       );
     }
     
-    // Call backend API
-    const response = await fetch(`${process.env.BACKEND_URL}/api/users/login`, {
+    // For development, use mock login instead of calling a real backend
+    // In production, you'd want to set BACKEND_URL in your environment variables
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
+    
+    // Check if this is a test account for local development
+    if (email === 'user@example.com' && password === 'password') {
+      return NextResponse.json({
+        user: {
+          id: '1',
+          email: 'user@example.com',
+          name: 'Test User',
+        },
+        token: 'mock-jwt-token-for-development',
+      });
+    }
+    
+    // Regular backend API call for production
+    const response = await fetch(`${backendUrl}/api/users/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

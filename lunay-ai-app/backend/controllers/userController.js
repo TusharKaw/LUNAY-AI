@@ -24,27 +24,44 @@ const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, authMethod = 'email' } = req.body;
 
   // Check if user exists
-  const userExists = await User.findOne({ email });
+  try {
+    const userExists = await User.findOne({ email });
 
-  if (userExists) {
-    res.status(400);
-    throw new Error('User already exists');
+    if (userExists) {
+      res.status(400);
+      throw new Error('User already exists');
+    }
+  } catch (error) {
+    console.error('Error checking user existence:', error);
+    res.status(500);
+    throw new Error('Error checking user existence');
   }
 
-  // Create user
-  const user = await User.create({
-    name,
-    email,
-    password,
-    authMethod,
-  });
+  let user;
+  try {
+    // Create user
+    user = await User.create({
+      name,
+      email,
+      password,
+      authMethod,
+    });
 
-  // Create default subscription (free tier)
-  await Subscription.create({
-    user: user._id,
-    plan: 'free',
-    status: 'active',
-  });
+    console.log('User created:', user);
+
+    // Create default subscription (free tier)
+    const subscription = await Subscription.create({
+      user: user._id,
+      plan: 'free',
+      status: 'active',
+    });
+
+    console.log('Subscription created:', subscription);
+  } catch (error) {
+    console.error('Error creating user or subscription:', error);
+    res.status(500);
+    throw new Error('Error creating user account');
+  }
 
   if (user) {
     // Generate tokens
